@@ -7,7 +7,7 @@ Run directly on HTTP
 --------------------
 
 1. Pull the image: `docker pull nasqueron/aphlict`
-2. Run the container: `docker run -dt -p 22280:22280 -p 22281:22281 nasqueron/aphlict aphlict`
+2. Run the container: `docker run -dt -p 22280:22280 -p 22281:22281 nasqueron/aphlict`
 3. Configure your Phabricator instance at http://phabricator.domain.tld/config/group/notification/
 
 When you configure your instance, three parameters are necessary:
