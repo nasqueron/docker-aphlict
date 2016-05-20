@@ -1,0 +1,24 @@
+{
+  "servers": [
+    {
+      "type": "client",
+      "port": 22280,
+      "listen": "0.0.0.0",
+      "ssl.key": null,
+      "ssl.cert": null
+    },
+    {
+      "type": "admin",
+      "port": 22281,
+      "listen": "0.0.0.0",
+      "ssl.key": null,
+      "ssl.cert": null
+    }
+  ],
+  "logs": [
+    {
+      "path": "/var/log/aphlict.log"
+    }
+  ],
+  "pidfile": "/var/run/aphlict.pid"
+}

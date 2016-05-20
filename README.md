@@ -8,34 +8,40 @@ Run directly on HTTP
 
 1. Pull the image: `docker pull nasqueron/aphlict`
 2. Run the container: `docker run -dt -p 22280:22280 -p 22281:22281 nasqueron/aphlict`
-3. Configure your Phabricator instance at http://phabricator.domain.tld/config/group/notification/
+3. Configure your Phabricator instance at http://phabricator.domain.tld/config/edit/notification.servers
 
-When you configure your instance, three parameters are necessary:
+When you configure your instance, use the following template:
 
-* **notification.enabled:** true (Enable Real-Time Notifications)
-* **notification.client-uri:** http://<ip or host>:22280/
-* **notification.server-uri:** http://<ip or host>:22281/
-
+```lang=json
+[
+  {
+    "type": "client",
+    "host": "aphlict.yourdomain.tld",
+    "port": 22280,
+    "protocol": "http"
+  },
+  {
+    "type": "admin",
+    "host": "aphlict.yourdomain.tld",
+    "port": 22281,
+    "protocol": "http"
+  }
+]
+```
 
 TLS termination
 ---------------
 
-Steps 1 and 2 as above.
+Add a certificate to your container, replace the protocol
+http by https in Phabricator config.
 
-3. Follow the instructions of https://secure.phabricator.com/book/phabricator/article/notifications/#advanced-usage to configure your nginx. Note you can directly use proxy_pass http://localhost:22280/ and discard the upstream block.
-4. Configure your Phabricator instance at https://phabricator.domain.tld/config/group/notification/
-
-When you configure your intance, three parameters are necessary, but only *client-uri* changes from the HTTP config:
-
-* notification.client-uri: https://phabricator.domain.tld/ws/
-
-The other two remains the same:
-
-* notification.server-uri: http://<ip or host>:22281/ * 
-* notification.enabled: true (Enable Real-Time Notifications)
+Edit /opt/phabricator/conf/aphlict/aphlict.custom.json in your
+container, so ssl.key & ssl.cert certificates have the relevant paths.
 
 Note
 ----
 
-You won't be able to access log or PID file, excepted if you add volumes
-and share them with your Phabricator instance (`-v ... --volumes-from=aphlict`).
+You can get the server log using `docker logs <your container name>`.
+
+To check the status of the server,
+use http://phabricator.domain.tld/config/cluster/notifications/
